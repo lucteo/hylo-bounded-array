@@ -39,7 +39,7 @@ fun test_init_with_capacity() {
 fun test_init_with_lambda() {
   let d = BoundedArray<Immovable>(
     count: 10,
-    initialize_with: fun (_ i: Int, _ e: set Immovable) -> Void { &e.value = i * 2 })
+    initialized_with: fun (_ i: Int, _ e: set Immovable) -> Void { &e.value = i * 2 })
   precondition(d.count() == 10)
   precondition(d.capacity() == 10)
   precondition(!d.is_empty())
@@ -85,9 +85,9 @@ fun test_can_mutate_through_pointer_access() {
 
 fun test_append_with_initializer_on_empty_array() {
   var d = BoundedArray<Immovable>(capacity: 10)
-  &d.append(initialize_with: fun (_ e: set Immovable) -> Void { &e.value = 21 })
-  &d.append(initialize_with: fun (_ e: set Immovable) -> Void { &e.value = 42 })
-  &d.append(initialize_with: fun (_ e: set Immovable) -> Void { &e.value = 84 })
+  &d.append(initialized_with: fun (_ e: set Immovable) -> Void { &e.value = 21 })
+  &d.append(initialized_with: fun (_ e: set Immovable) -> Void { &e.value = 42 })
+  &d.append(initialized_with: fun (_ e: set Immovable) -> Void { &e.value = 84 })
 
   precondition(d.count() == 3)
   precondition(d.capacity() == 10)
@@ -100,9 +100,9 @@ fun test_append_with_initializer_on_empty_array() {
 
 fun test_append_with_initializer_can_fill_the_array() {
   var d = BoundedArray<Immovable>(capacity: 3)
-  &d.append(initialize_with: fun (_ e: set Immovable) -> Void { &e.value = 21 })
-  &d.append(initialize_with: fun (_ e: set Immovable) -> Void { &e.value = 42 })
-  &d.append(initialize_with: fun (_ e: set Immovable) -> Void { &e.value = 84 })
+  &d.append(initialized_with: fun (_ e: set Immovable) -> Void { &e.value = 21 })
+  &d.append(initialized_with: fun (_ e: set Immovable) -> Void { &e.value = 42 })
+  &d.append(initialized_with: fun (_ e: set Immovable) -> Void { &e.value = 84 })
 
   precondition(d.count() == 3)
   precondition(d.capacity() == 3)
@@ -251,10 +251,10 @@ fun test_pop_last_n_can_empty_the_array() {
 fun test_bounded_array_is_movable_even_if_the_element_is_immovable() {
   let a = BoundedArray<Immovable>(
     count: 3,
-    initialize_with: fun (_ i: Int, _ e: set Immovable) -> Void { &e.value = i.copy() })
+    initialized_with: fun (_ i: Int, _ e: set Immovable) -> Void { &e.value = i.copy() })
   let b = BoundedArray<Immovable>(
     count: 10,
-    initialize_with: fun (_ i: Int, _ e: set Immovable) -> Void { &e.value = 2 * i })
+    initialized_with: fun (_ i: Int, _ e: set Immovable) -> Void { &e.value = 2 * i })
 
   &b = a
 
