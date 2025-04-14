@@ -28,7 +28,7 @@ public type BoundedArray<Element: Deinitializable>: SemiRegular {
   /// `initialize` accepts an index and the element that needs to be initialized.
   ///
   /// - Requires: `count >= 0`.
-  public init<E>(count: Int, initialize_with initialize: [E](Int, set Element) -> Void) {
+  public init<E>(count: Int, initialized_with initialize: [E](Int, set Element) -> Void) {
     precondition(count >= 0, "negative array count")
 
     &storage = new_storage(count)
@@ -36,7 +36,7 @@ public type BoundedArray<Element: Deinitializable>: SemiRegular {
     var i = 0
     while i != count {
       let i_copy = i.copy()
-      &append(initialize_with: fun (_ e: set Element) -> Void {
+      &append(initialized_with: fun (_ e: set Element) -> Void {
         initialize(i_copy, &e)
       })
       &i += 1
@@ -92,7 +92,7 @@ public type BoundedArray<Element: Deinitializable>: SemiRegular {
   ///
   /// Requires: `count() < capacity()`.
   /// Complexity: O(1).
-  public fun append<E>(initialize_with initializer: inout [E](set Element) -> Void) inout {
+  public fun append<E>(initialized_with initializer: inout [E](set Element) -> Void) inout {
     precondition(count() < capacity(), "array is full")
     pointer_to_element(at: count()).unsafe_initialize_pointee(&initializer)
     &storage.header += 1
